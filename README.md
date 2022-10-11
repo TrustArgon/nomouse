@@ -6,7 +6,7 @@
 <h3 align="center">nomouse i3 dotfiles</h3>
 
   <p align="center">
-    project_description
+    Highly functional i3 customization with dual monitor support.
     <br />
     <a href="https://github.com/TrustArgon/nomouse"><strong>Explore the docs »</strong></a>
     <br />
@@ -53,7 +53,6 @@
 ## About The Project
 
 i3 is a highly customizable tiling window manager. It makes the use of screen real-estate extremely efficient. 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `TrustArgon`, `nomouse`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
