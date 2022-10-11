@@ -1,0 +1,152 @@
+# py3status
+
+general {
+	color_bad = "#acbcbd"
+	color_degraded = "#519bb0"
+	color_good = "#059fff"
+	color_separator = "#586e75"
+	colors = true
+	interval = 60
+	markup = "pango"
+	output_format = "i3bar"
+}
+
+py3status {
+
+}
+
+order += "process_status xautolock"
+order += "do_not_disturb"
+order += "disk /"
+order += "dpms"
+order += "process_status VPN"
+order += "net_iplist"
+order += "load"
+order += "volume_status speakers"
+order += "volume_status mic"
+order += "battery_level"
+order += "group tz"
+order += "tztime local"
+
+net_iplist {
+	iface_blackist = ['lo']
+	format_iface = '{iface}:[{ip4}]'
+	format = '{format_iface}'
+}
+xrandr {
+    urgent_background = 'crimson'
+    urgent_foreground = "black"
+    urgent_border_bottom = "green"
+    force_on_start = "eDP1+DP1"
+	  force_on_change = ["eDP1+DP1", "eDP1"]
+	  DP1_pos = "right-of eDP1"
+	  DP2_pos = "right-of eDP1"
+	  DP1-2_pos = "right-of eDP1"
+	  DP2-2_pos = "right-of eDP1"
+}
+
+do_not_disturb {
+    format = '[\?color=state [\?if=state |]]'
+    thresholds = [(0, 'good'), (1, 'bad')]
+}
+
+process_status xautolock {
+	cache_timeout = 300
+	icon_off = ""
+	icon_on = ""
+	on_click 1 = "exec pidof xautolock || xautolock -secure -time 5 -locker '/usr/bin/i3lock -ef -c 002b36'"
+	on_click 3 = "exec killall xautolock"
+	process = "xautolock"
+}
+
+bluetooth {
+	format = ""
+	on_click 1 = "exec bluetoothctl power on && bluetoothctl connect 2C:41:A1:F7:DA:B2"
+	on_click 3 = "exec bluetoothctl power off"
+}
+
+backlight {
+	format = ""
+	color = "#b58900"
+}
+
+group tz {
+	cycle = 10
+	format = "{output}"
+
+	tztime UTC {
+		format = "UTC:  %H:%M"
+		timezone = "GMT"
+	}
+}
+
+dpms {
+	icon_off = ""
+	icon_on = ""
+}
+
+volume_status speakers {
+	command = "pactl"
+	format = ' {percentage}%'
+	format_muted = ' {percentage}%'
+	button_down = 5
+	button_mute = 1
+	button_up = 4
+	thresholds = [(0, 'bad'), (5, 'degraded'), (10, 'good')]
+	max_volume = 200
+}
+
+volume_status mic {
+    format = ' {percentage}%'
+    format_muted = ' {percentage}%'
+	button_down = 5
+	button_mute = 1
+	button_up = 4
+	is_input = true
+	thresholds = [(0, 'bad'), (10, 'degraded'), (20, 'good')]
+}
+
+process_status VPN {
+	format = "{icon}"
+	icon_on = "VPN"
+	icon_off = "VPN"
+	process = "openvpn"
+	on_click 1 = "exec xterm -c openvpn -e 'test -f /run/openvpn.pid || sudo systemctl start openvpn@client.service'"
+	on_click 3 = "exec sudo systemctl stop openvpn@client.service"
+}
+
+tztime local {
+	format = "Local: %a %Y.%m.%d %H:%M:%S"
+}
+
+load {
+	format = "%5min"
+}
+
+disk "/" {
+	format = "/ %free"
+	on_click 1 = "exec thunar ~"
+}
+
+cpu_temperature 0 {
+	format = "%degrees°C"
+	path = "/sys/devices/platform/coretemp.0/temp1_input"
+}
+
+volume master {
+	device = "default"
+	format = "♪ %volume"
+	mixer = "Master"
+	mixer_idx = 0
+	on_click 1 = "exec amixer set Master toggle"
+	on_click 4 = "exec amixer set Master 5%+"
+	on_click 5 = "exec amixer set Master 5%-"
+}
+
+battery_level {
+	blocks = ''
+	charging_character = ''
+	format = '{icon}'
+	hide_when_full = True
+	measurement_mode = 'sys'
+}
